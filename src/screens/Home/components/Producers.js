@@ -1,21 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Text, FlatList, StyleSheet } from 'react-native';
-import { loadProducers } from '../../../services/loadDatas';
+
+import { useProducers } from '../../../hooks/useProducers';
 import { ProducerCard } from './Producer';
 
 function Producers({ top: Top }) {
-    const [ producers, setProducers ] = useState([]);
-
-    useEffect(() => {
-        const { lista } = loadProducers();
-        setProducers(lista);
-    }, [])
+    const [ title, producers ] = useProducers();
 
     const topContent = () => {
         return (
             <>
                 <Top />
-                <Text style={style.title}>Produtores</Text>
+                <Text style={style.title}>{ title }</Text>
             </>
         )
     }

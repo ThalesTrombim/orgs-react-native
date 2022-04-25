@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
+import React, { useReducer, useMemo } from 'react';
 import { Image, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { GiveStars } from '../../../components/Stars';
 
+function distanceInMeters(distancia) {
+    return `${distancia}m`;
+}
+
 function ProducerCard({ nome, imagem, distancia, estrelas }) {
-    const [ select, setSelect ] = useState(false);
+    const [ select, toggleSelect ] = useReducer((select) => !select, false)
+
+    const distanceText = useMemo(() => distanceInMeters(distancia), [distancia]);
 
     return (
         <TouchableOpacity 
             style={style.card}
-            onPress={() => setSelect(!select)}    
+            onPress={toggleSelect}
         >
             <Image source={imagem} accessibilityLabel={nome} style={style.img}/>
             <View style={style.info}>
@@ -21,7 +27,7 @@ function ProducerCard({ nome, imagem, distancia, estrelas }) {
                         big={select}
                     />
                 </View>
-                <Text style={style.distance}>{distancia}</Text>
+                <Text style={style.distance}>{distanceText}</Text>
             </View>
         </TouchableOpacity>
     )
